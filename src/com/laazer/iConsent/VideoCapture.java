@@ -69,6 +69,14 @@ public class VideoCapture extends SurfaceView implements SurfaceHolder.Callback 
         }
     }
 
+    public void startCapturingVideo() {
+        try {
+            recorder.start();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     public void stopCapturingVideo() {
         try {
             recorder.stop();
