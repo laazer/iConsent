@@ -1,16 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
-              android:layout_height="match_parent">
+              android:layout_height="match_parent"
+              android:background="#ffffff">
+
     <com.laazer.iConsent.VideoCapture
             android:id="@+id/videoView"
-            android:layout_width="700px"
-            android:layout_height="400px"
-            android:background="#00000000" />
-    <Button android:layout_width="100px"
-            android:layout_height="100px"
-            android:id="@+id/stop"/>
+            android:layout_width="450px"
+            android:layout_height="450px"
+            android:background="#ffffff"
+            android:layout_marginTop="42dp"
+            android:layout_centerHorizontal="true"/>
 
-</LinearLayout>
+    <Button android:layout_width="200px"
+            android:layout_height="200px"
+            android:background="#ffff0f16"
+            android:id="@+id/stop"
+            android:layout_gravity="center_horizontal|center_vertical"
+            android:text="Stop"
+            android:layout_alignParentBottom="true" android:layout_centerHorizontal="true"
+            android:layout_marginBottom="52dp"/>
+
+</RelativeLayout>
