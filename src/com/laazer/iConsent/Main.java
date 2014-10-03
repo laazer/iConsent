@@ -16,6 +16,6 @@ public class Main extends Activity {
     }
 
     public void onClick(View view) {
-        startActivity(new Intent(this, VidCap.class));
+        startActivity(new Intent(this, CaptureVideo.class));
     }
 }

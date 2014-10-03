@@ -6,14 +6,17 @@
 
     <SurfaceView
             android:id="@+id/surface_camera"
-            android:layout_width="100px"
-            android:layout_height="100px"
-            android:layout_weight="1" />
+            android:layout_width="700px"
+            android:layout_height="400px"
+            android:layout_weight="1"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"/>
 
     <Button
             android:id="@+id/buttonstart"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/ic_launcher" />
+            android:background="@drawable/ic_launcher" android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true"/>
 
 </RelativeLayout>

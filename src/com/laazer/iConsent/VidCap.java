@@ -22,7 +22,6 @@ public class VidCap extends Fragment implements SurfaceHolder.Callback {
     private SurfaceView surfaceView;
     public MediaRecorder mrec = new MediaRecorder();
     private Button startRecording = null;
-    //private Button stopRecording = null;
     File video;
     private Camera mCamera;
 
@@ -37,6 +36,13 @@ public class VidCap extends Fragment implements SurfaceHolder.Callback {
         surfaceHolder = surfaceView.getHolder();
         surfaceHolder.addCallback(this);
         surfaceHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        inflater.inflate(R.layout.start, null);
+        return surfaceView;
     }
 
     @Override

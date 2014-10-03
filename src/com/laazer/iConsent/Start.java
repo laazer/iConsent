@@ -9,7 +9,8 @@ import android.os.Bundle;
 public class Start extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        setContentView(R.layout.main);
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.start);
     }
+
 }
