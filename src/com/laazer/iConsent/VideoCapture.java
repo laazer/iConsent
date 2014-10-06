@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.hardware.Camera;
+import android.hardware.Camera.CameraInfo;
 import android.media.MediaRecorder;
 import android.os.Environment;
 import android.util.AttributeSet;
@@ -18,6 +19,7 @@ public class VideoCapture extends SurfaceView implements SurfaceHolder.Callback 
     private Camera camera;
     public static String videoPath = Environment.getExternalStorageDirectory()
             .getPath() +"/YOUR_VIDEO.mp4";
+    int cameraId = 0;
 
     public VideoCapture(Context context) {
         super(context);
@@ -42,6 +44,7 @@ public class VideoCapture extends SurfaceView implements SurfaceHolder.Callback 
             holder = getHolder();
             holder.addCallback(this);
             holder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
+            setFrontFacingCamera();
             camera = getCameraInstance();
             if(android.os.Build.VERSION.SDK_INT > 7)
                 camera.setDisplayOrientation(90);
@@ -100,10 +103,26 @@ public class VideoCapture extends SurfaceView implements SurfaceHolder.Callback 
     private Camera getCameraInstance() {
         Camera c = null;
         try {
-            c = Camera.open(); // attempt to get a Camera instance
+            c = Camera.open(cameraId); // attempt to get a Camera instance
         } catch (Exception e) {
             // Camera is not available (in use or does not exist)
         }
         return c;
+    }
+
+    private int setFrontFacingCamera() {
+        cameraId = -1;
+        // Search for the front facing camera
+        int numberOfCameras = Camera.getNumberOfCameras();
+        for (int i = 0; i < numberOfCameras; i++) {
+            CameraInfo info = new CameraInfo();
+            Camera.getCameraInfo(i, info);
+            if (info.facing == CameraInfo.CAMERA_FACING_FRONT) {
+                //Log.d(DEBUG_TAG, "Camera found");
+                cameraId = i;
+                break;
+            }
+        }
+        return cameraId;
     }
 }

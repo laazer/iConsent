@@ -14,6 +14,8 @@ public class CaptureVideo extends Activity {
     private VideoCapture videoCapture;
     private Button stop;
     private int state;
+    private final static String START = "Start";
+    private final static String STOP = "Stop";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,10 +24,12 @@ public class CaptureVideo extends Activity {
         state = 0;
         videoCapture = (VideoCapture) findViewById(R.id.videoView);
         stop = (Button) findViewById(R.id.stop);
+        stop.setText(START);
         stop.setOnClickListener(new View.OnClickListener() {
             public void onClick(View arg0) {
                 if(state == 0) {
                     videoCapture.startCapturingVideo();
+                    stop.setText(STOP);
                     stop.setBackgroundColor(0xff0000);
                     state = 1;
                 }
