@@ -55,16 +55,26 @@ public class VideoCapture extends SurfaceView implements SurfaceHolder.Callback 
             if(android.os.Build.VERSION.SDK_INT > 7)
                 camera.setDisplayOrientation(90);
             camera.unlock();
-            recorder.setCamera(camera);
-            recorder.setVideoSource(MediaRecorder.VideoSource.DEFAULT);
-            recorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
-            recorder.setVideoEncoder(MediaRecorder.VideoEncoder.MPEG_4_SP);
-            recorder.setOutputFile(videoPath);
+            //setRecorder(camera);
+            makeMedia();
+//            recorder.setCamera(camera);
+//            recorder.setVideoSource(MediaRecorder.VideoSource.DEFAULT);
+//            recorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
+//            recorder.setVideoEncoder(MediaRecorder.VideoEncoder.MPEG_4_SP);
+//            recorder.setOutputFile(videoPath);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
+    void makeMedia() {
+        recorder = new MediaRecorder();
+        recorder.setCamera(camera);
+        recorder.setVideoSource(MediaRecorder.VideoSource.DEFAULT);
+        recorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
+        recorder.setVideoEncoder(MediaRecorder.VideoEncoder.MPEG_4_SP);
+        recorder.setOutputFile(videoPath);
+    }
     public void surfaceChanged(SurfaceHolder arg0, int arg1, int arg2, int arg3) {
     }
 
@@ -119,21 +129,6 @@ public class VideoCapture extends SurfaceView implements SurfaceHolder.Callback 
 
     public int switchCamera(View view) {
         cameraId = -1;
-
-        // Search for the front facing camera
-//        int numberOfCameras = Camera.getNumberOfCameras();
-//        if (numberOfCameras < 2) {
-//            Toast.makeText(getContext(), "No front facing camera found.", Toast.LENGTH_LONG).show();
-//        }
-//        for (int i = 0; i < numberOfCameras; i++) {
-//            CameraInfo info = new CameraInfo();
-//            Camera.getCameraInfo(i, info);
-//            if (info.facing == CameraInfo.CAMERA_FACING_FRONT) {
-//                //Log.d(DEBUG_TAG, "Camera found");
-//                cameraId = i;
-//                break;
-//            }
-//        }
         camera.stopPreview();
         camera.release();
         if(cameraId == CameraInfo.CAMERA_FACING_BACK) {
@@ -145,10 +140,27 @@ public class VideoCapture extends SurfaceView implements SurfaceHolder.Callback 
         camera = camera.open(cameraId);
         try {
             camera.setPreviewDisplay(holder);
+            //setRecorder(camera);
         }catch (IOException io) {
             io.printStackTrace();
         }
         camera.startPreview();
         return cameraId;
+    }
+
+    public void setRecorder(Camera mCamera) {
+        recorder.stop();
+        recorder.reset();   // You can reuse the object by going back to setAudioSource() step
+        recorder.release(); // Now the object cannot be reused
+        recorder = new MediaRecorder();
+        recorder.setAudioSource(MediaRecorder.AudioSource.MIC);
+        recorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
+        recorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
+        recorder.setCamera(mCamera);
+        recorder.setVideoSource(MediaRecorder.VideoSource.DEFAULT);
+        recorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
+        recorder.setVideoEncoder(MediaRecorder.VideoEncoder.MPEG_4_SP);
+        recorder.setOutputFile(videoPath);
+        recorder.start();   // Recording is now started
     }
 }
