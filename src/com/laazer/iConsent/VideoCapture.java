@@ -140,6 +140,7 @@ public class VideoCapture extends SurfaceView implements SurfaceHolder.Callback 
         camera = camera.open(cameraId);
         try {
             camera.setPreviewDisplay(holder);
+            makeMedia();
             //setRecorder(camera);
         }catch (IOException io) {
             io.printStackTrace();
