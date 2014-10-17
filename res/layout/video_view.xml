@@ -18,7 +18,12 @@
             android:id="@+id/stop"
             android:layout_gravity="center_horizontal|center_vertical"
             android:text="Stop"
-            android:layout_alignParentBottom="true" android:layout_centerHorizontal="true"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
             android:layout_marginBottom="52dp"/>
+
+    <Button android:layout_width="100px"
+            android:layout_height="100px"
+            android:id="@+id/switch_cam"/>
 
 </RelativeLayout>
