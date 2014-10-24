@@ -138,6 +138,7 @@ public class VideoCapture extends SurfaceView implements SurfaceHolder.Callback 
             cameraId = CameraInfo.CAMERA_FACING_BACK;
         }
         camera = camera.open(cameraId);
+        camera.setDisplayOrientation(90);
         try {
             camera.setPreviewDisplay(holder);
             makeMedia();
