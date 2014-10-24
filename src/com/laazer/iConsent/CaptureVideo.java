@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.app.Dialog;
 import android.content.Context;
 import android.view.View.OnClickListener;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -36,7 +37,6 @@ public class CaptureVideo extends Activity {
 
             @Override
             public void onClick(View arg0) {
-
                 // custom dialog
                 final Dialog dialog = new Dialog(context);
                 dialog.setContentView(R.layout.custom);
@@ -47,12 +47,14 @@ public class CaptureVideo extends Activity {
                 text.setText("Please Enter Your Partner's Number");
                 ImageView image = (ImageView) dialog.findViewById(R.id.image);
                 image.setImageResource(R.drawable.ic_launcher);
-
                 Button dialogButton = (Button) dialog.findViewById(R.id.dialogButtonOK);
+                dialogButton.setText("Done");
                 // if button is clicked, close the custom dialog
                 dialogButton.setOnClickListener(new OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        EditText et = (EditText)dialog.findViewById(R.id.number_entry);
+                        text.setText(et.getText());
                         dialog.dismiss();
                     }
                 });

@@ -142,7 +142,7 @@ public class VideoCapture extends SurfaceView implements SurfaceHolder.Callback 
         try {
             camera.setPreviewDisplay(holder);
             makeMedia();
-            //setRecorder(camera);
+            //setRecorder();
         }catch (IOException io) {
             io.printStackTrace();
         }
@@ -150,7 +150,7 @@ public class VideoCapture extends SurfaceView implements SurfaceHolder.Callback 
         return cameraId;
     }
 
-    public void setRecorder(Camera mCamera) {
+    public void setRecorder() {
         recorder.stop();
         recorder.reset();   // You can reuse the object by going back to setAudioSource() step
         recorder.release(); // Now the object cannot be reused
@@ -158,7 +158,7 @@ public class VideoCapture extends SurfaceView implements SurfaceHolder.Callback 
         recorder.setAudioSource(MediaRecorder.AudioSource.MIC);
         recorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
         recorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
-        recorder.setCamera(mCamera);
+        recorder.setCamera(camera);
         recorder.setVideoSource(MediaRecorder.VideoSource.DEFAULT);
         recorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
         recorder.setVideoEncoder(MediaRecorder.VideoEncoder.MPEG_4_SP);
