@@ -27,7 +27,7 @@ public class VideoCapture extends SurfaceView implements SurfaceHolder.Callback 
     public Context context;
     private Camera camera;
     public static String videoPath = Environment.getExternalStorageDirectory()
-            .getPath() +"/YOUR_VIDEO.mp4";
+            .getPath() +"/AA_VID.mp4";
     int cameraId = 0;
 
     public VideoCapture(Context context) {
@@ -60,11 +60,6 @@ public class VideoCapture extends SurfaceView implements SurfaceHolder.Callback 
             camera.unlock();
             //setRecorder(camera);
             makeMedia();
-//            recorder.setCamera(camera);
-//            recorder.setVideoSource(MediaRecorder.VideoSource.DEFAULT);
-//            recorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
-//            recorder.setVideoEncoder(MediaRecorder.VideoEncoder.MPEG_4_SP);
-//            recorder.setOutputFile(videoPath);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -73,11 +68,14 @@ public class VideoCapture extends SurfaceView implements SurfaceHolder.Callback 
     void makeMedia() {
         recorder = new MediaRecorder();
         recorder.setCamera(camera);
+//        recorder.setAudioSource(MediaRecorder.AudioSource.DEFAULT);
+//        recorder.setAudioEncoder(MediaRecorder.AudioEncoder.DEFAULT);
         recorder.setVideoSource(MediaRecorder.VideoSource.DEFAULT);
         recorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
         recorder.setVideoEncoder(MediaRecorder.VideoEncoder.MPEG_4_SP);
         recorder.setOutputFile(videoPath);
     }
+
     public void surfaceChanged(SurfaceHolder arg0, int arg1, int arg2, int arg3) {
     }
 
@@ -93,6 +91,7 @@ public class VideoCapture extends SurfaceView implements SurfaceHolder.Callback 
 
     public void startCapturingVideo() {
         try {
+            //recorder.prepare();
             recorder.start();
         } catch (Exception e) {
             e.printStackTrace();
@@ -102,6 +101,7 @@ public class VideoCapture extends SurfaceView implements SurfaceHolder.Callback 
     public void stopCapturingVideo() {
         try {
             recorder.stop();
+            Log.v(TAG, "Stopped");
             camera.lock();
         } catch (Exception e) {
             e.printStackTrace();
@@ -132,6 +132,7 @@ public class VideoCapture extends SurfaceView implements SurfaceHolder.Callback 
 
     public int switchCamera(View view) {
         cameraId = -1;
+        recorder.release();
         camera.stopPreview();
         camera.release();
         //if(cameraId == CameraInfo.CAMERA_FACING_BACK) {
@@ -149,27 +150,13 @@ public class VideoCapture extends SurfaceView implements SurfaceHolder.Callback 
         try {
             camera.setPreviewDisplay(holder);
             makeMedia();
-            //setRecorder();
+            camera.startPreview();
+            recorder.prepare();
         }catch (IOException io) {
             io.printStackTrace();
+            Log.e(TAG, String.format("Switch Camera threw io exception %s", io.toString()));
         }
-        camera.startPreview();
         return cameraId;
     }
 
-    public void setRecorder() {
-        recorder.stop();
-        recorder.reset();   // You can reuse the object by going back to setAudioSource() step
-        recorder.release(); // Now the object cannot be reused
-        recorder = new MediaRecorder();
-        recorder.setAudioSource(MediaRecorder.AudioSource.MIC);
-        recorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
-        recorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
-        recorder.setCamera(camera);
-        recorder.setVideoSource(MediaRecorder.VideoSource.DEFAULT);
-        recorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
-        recorder.setVideoEncoder(MediaRecorder.VideoEncoder.MPEG_4_SP);
-        recorder.setOutputFile(videoPath);
-        recorder.start();   // Recording is now started
-    }
 }
