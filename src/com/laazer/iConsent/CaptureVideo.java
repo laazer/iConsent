@@ -41,7 +41,6 @@ public class CaptureVideo extends Activity {
                 final Dialog dialog = new Dialog(context);
                 dialog.setContentView(R.layout.custom);
                 dialog.setTitle("Please Enter Your Partner's Number");
-
                 // set the custom dialog components - text, image and button
                 TextView text = (TextView) dialog.findViewById(R.id.text);
                 text.setText("Please Enter Your Partner's Number");

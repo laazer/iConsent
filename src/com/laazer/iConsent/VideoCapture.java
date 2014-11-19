@@ -8,6 +8,7 @@ import android.hardware.Camera.CameraInfo;
 import android.media.MediaRecorder;
 import android.os.Environment;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
@@ -18,9 +19,11 @@ import java.io.IOException;
 
 public class VideoCapture extends SurfaceView implements SurfaceHolder.Callback {
 
+    private static final String TAG = "Video Capture";
     private MediaRecorder recorder;
     private SurfaceHolder holder;
     private SurfaceView surfaceView;
+    private boolean direction;
     public Context context;
     private Camera camera;
     public static String videoPath = Environment.getExternalStorageDirectory()
@@ -131,12 +134,16 @@ public class VideoCapture extends SurfaceView implements SurfaceHolder.Callback 
         cameraId = -1;
         camera.stopPreview();
         camera.release();
-        if(cameraId == CameraInfo.CAMERA_FACING_BACK) {
+        //if(cameraId == CameraInfo.CAMERA_FACING_BACK) {
+        if(direction) {
             cameraId = CameraInfo.CAMERA_FACING_FRONT;
+            Log.v(TAG, "Camera Facing Front");
         }
         else {
             cameraId = CameraInfo.CAMERA_FACING_BACK;
+            Log.v(TAG, "Camera Facing Back");
         }
+        direction = !direction;
         camera = camera.open(cameraId);
         camera.setDisplayOrientation(90);
         try {
