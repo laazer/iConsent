@@ -12,6 +12,7 @@ import android.view.View.OnClickListener;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.hardware.Camera;
 
 /**
  * Created by jacob on 10/2/14.
@@ -61,7 +62,7 @@ public class CaptureVideo extends Activity {
                 dialog.show();
             }
         });
-
+        // Start/Stop button
         state = 0;
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         videoCapture = (VideoCapture) findViewById(R.id.videoView);
@@ -73,7 +74,7 @@ public class CaptureVideo extends Activity {
                 if(state == 0) {
                     videoCapture.startCapturingVideo();
                     stop.setText(STOP);
-                    stop.setBackgroundColor(0xff000000);
+                    stop.setBackgroundColor(0xfff00000);
                     state = 1;
                 }
                 else {
@@ -83,6 +84,10 @@ public class CaptureVideo extends Activity {
                 }
             }
         });
+        //  Switch Camera Button
+        if(Camera.getNumberOfCameras() == 1){
+            videoCapture.setVisibility(View.INVISIBLE);
+        }
         switchCam.setOnClickListener(new View.OnClickListener() {
             public void onClick(View arg0) {
                 videoCapture.switchCamera(arg0);

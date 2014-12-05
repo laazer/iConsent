@@ -11,7 +11,6 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
-
 import android.view.View;
 import android.widget.Toast;
 
@@ -84,6 +83,7 @@ public class VideoCapture extends SurfaceView implements SurfaceHolder.Callback 
             recorder.setPreviewDisplay(mHolder.getSurface());
             recorder.prepare();
             recorder.start();
+            Log.v(TAG, "Surface Created, called start");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -145,14 +145,15 @@ public class VideoCapture extends SurfaceView implements SurfaceHolder.Callback 
             Log.v(TAG, "Camera Facing Back");
         }
         direction = !direction;
-        camera = camera.open(cameraId);
+        camera = Camera.open(cameraId);
         camera.setDisplayOrientation(90);
         try {
             camera.setPreviewDisplay(holder);
             makeMedia();
             camera.startPreview();
+            recorder.setPreviewDisplay(holder.getSurface());
             recorder.prepare();
-        }catch (IOException io) {
+        } catch (IOException io) {
             io.printStackTrace();
             Log.e(TAG, String.format("Switch Camera threw io exception %s", io.toString()));
         }
